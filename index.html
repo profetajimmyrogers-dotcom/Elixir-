@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zion Elixir - Cyberpunk Edition</title>
+    
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2933/2933245.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========================================================= */
+        /* 1. VARIÁVEIS GLOBAIS - Cyber-Glass Design System          */
+        /* ========================================================= */
+        :root {
+            --neon-cyan: #00f0ff;
+            --neon-magenta: #ff00e5;
+            --neon-purple: #b000ff;
+            --cyber-dark: #0a0a12;
+            --glass-bg: rgba(13, 13, 26, 0.65);
+            --glass-border: rgba(0, 240, 255, 0.12);
+            --font-main: 'Inter', sans-serif;
+            --font-tech: 'JetBrains Mono', monospace;
+            --text-primary: #e0e8ff;
+        }
+
+        /* ========================================================= */
+        /* 2. RESET E FUNDO DINÂMICO                                 */
+        /* ========================================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--cyber-dark);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Efeito de Grade ao Fundo */
+        .bg-grid {
+            position: fixed; inset: 0; z-index: -1;
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveGrid 20s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            from { transform: translateY(0); }
+            to { transform: translateY(50px); }
+        }
+
+        /* ========================================================= */
+        /* 3. ESTRUTURA DA LOJA (Adaptado ao Design System)          */
+        /* ========================================================= */
+
+        header {
+            position: sticky; top: 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(1.5);
+            -webkit-backdrop-filter: blur(20px) saturate(1.5);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 100;
+            padding: 15px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-tech);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        /* ========================================================= */
+        /* 4. COMPONENTES DO DESIGN SYSTEM (Cyber-Glass)             */
+        /* ========================================================= */
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(1.5);
+            -webkit-backdrop-filter: blur(20px) saturate(1.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+            display: flex; flex-direction: column;
+        }
+
+        .glass-card:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+        }
+
+        .glass-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 15px; height: 15px;
+            border-top: 2px solid var(--neon-cyan); border-left: 2px solid var(--neon-cyan);
+            border-radius: 4px 0 0 0;
+        }
+
+        .card-image {
+            width: 100%; aspect-ratio: 1; object-fit: cover;
+            border-radius: 12px; margin-bottom: 15px;
+            border: 1px solid rgba(0, 240, 255, 0.05);
+        }
+
+        .price-table {
+            background: rgba(0, 0, 0, 0.4); border-radius: 8px;
+            padding: 10px; margin-bottom: 15px; border: 1px solid var(--glass-border);
+        }
+
+        .price-row {
+            display: flex; justify-content: space-between; font-size: 12px;
+            padding: 4px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: var(--font-tech);
+        }
+
+        .price-value { color: var(--neon-cyan); font-weight: bold; }
+
+        .cyber-input {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px; padding: 12px;
+            color: var(--text-primary);
+            outline: none; width: 100%; transition: 0.3s;
+            font-family: var(--font-tech);
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+        
+        select.cyber-input option {
+            background: var(--cyber-dark);
+            color: var(--text-primary);
+        }
+
+        .cyber-input:focus {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+        }
+
+        .neon-btn {
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-family: var(--font-tech);
+            cursor: pointer; transition: 0.3s;
+            text-transform: uppercase; font-size: 0.8rem; font-weight: bold;
+            width: 100%;
+        }
+
+        .neon-btn:hover {
+            background: var(--neon-cyan); color: var(--cyber-dark);
+            box-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        /* ========================================================= */
+        /* 5. ESTILOS DO CARRINHO LATERAL (Sidebar Cyber)            */
+        /* ========================================================= */
+        .cart-sidebar {
+            position: fixed; right: -100%; top: 0;
+            width: 100%; max-width: 400px; height: 100%;
+            background: rgba(10, 10, 18, 0.95);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid var(--neon-cyan);
+            box-shadow: -10px 0 30px rgba(0, 240, 255, 0.1);
+            transition: 0.4s ease-in-out;
+            z-index: 1000; padding: 25px;
+            display: flex; flex-direction: column; box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .cart-sidebar.active { right: 0; }
+
+        .cart-item {
+            padding: 15px 0; border-bottom: 1px dashed var(--glass-border);
+            display: flex; justify-content: space-between; align-items: center;
+            font-family: var(--font-tech); font-size: 0.85rem;
+        }
+
+        .checkout-form {
+            background: var(--glass-bg); padding: 20px;
+            border-radius: 12px; margin-top: 25px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .checkout-form h4 {
+            margin: 0 0 15px 0; color: var(--neon-cyan);
+            font-size: 14px; text-transform: uppercase; font-family: var(--font-tech);
+        }
+
+        .form-group { margin-bottom: 10px; }
+
+        .form-group label {
+            display: block; font-size: 11px; margin-bottom: 6px;
+            color: rgba(255,255,255,0.6); font-family: var(--font-tech);
+        }
+
+        .coupon-area { margin: 20px 0; }
+        .coupon-flex { display: flex; gap: 10px; }
+        
+        #couponMsg {
+            font-size: 11px; margin-top: 10px; text-align: center;
+            font-family: var(--font-tech); text-transform: uppercase;
+        }
+
+        #priceDetails {
+            margin: 20px 0; background: rgba(0, 0, 0, 0.4);
+            padding: 15px; border-radius: 8px; border: 1px solid var(--glass-border);
+            font-family: var(--font-tech);
+        }
+
+        .frete-alerta {
+            animation: alertPulse 1.2s infinite ease-in-out; font-weight: bold;
+            background: rgba(255, 0, 229, 0.1); padding: 4px 10px;
+            border-radius: 6px; border: 1px solid var(--neon-magenta);
+            display: inline-block; margin-left: 5px;
+        }
+
+        @keyframes alertPulse {
+            0% { color: var(--neon-magenta); box-shadow: 0 0 5px var(--neon-magenta); }
+            50% { color: #fff; box-shadow: 0 0 15px var(--neon-magenta); }
+            100% { color: var(--neon-magenta); box-shadow: 0 0 5px var(--neon-magenta); }
+        }
+        
+        .cart-btn-header {
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            border-radius: 50px;
+            padding: 8px 15px;
+            display: flex; align-items: center; gap: 8px;
+            cursor: pointer; transition: 0.3s;
+            font-family: var(--font-tech); font-weight: bold;
+        }
+        
+        .cart-btn-header:hover { background: var(--neon-cyan); color: var(--cyber-dark); }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+
+    <header>
+        <div class="logo">ZION ELIXIR</div>
+        <button id="cartBtn" class="cart-btn-header">
+            <i class="material-icons">shopping_cart</i>
+            <span id="cartCount">0</span>
+        </button>
+    </header>
+
+    <main>
+        <div class="grid-container" id="gridContainer"></div>
+    </main>
+
+    <div class="cart-sidebar" id="cartSidebar">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid var(--neon-cyan); padding-bottom: 10px;">
+            <h2 class="logo" style="font-size: 1.2rem; margin: 0; background: var(--neon-cyan); -webkit-background-clip: text;">[ CARRINHO ]</h2>
+            <i class="material-icons" onclick="toggleCart()" style="cursor:pointer; color: var(--neon-magenta); transition: 0.3s;">close</i>
+        </div>
+        
+        <div id="cartItems" style="max-height: 250px; overflow-y:auto;"></div>
+
+        <div class="checkout-form">
+            <h4>// DADOS_DE_ENTREGA</h4>
+            <div class="form-group">
+                <label>NOME_COMPLETO *</label>
+                <input type="text" id="cust-nome" class="cyber-input" style="margin-bottom: 0;" placeholder="Seu nome">
+            </div>
+            
+            <div class="form-group" style="margin-top: 15px;">
+                <label>LOCALIDADE *</label>
+                <select id="cust-bairro" class="cyber-input" style="margin-bottom: 0;" onchange="verificarLocalidade()">
+                    <option value="">Selecione seu bairro...</option>
+                </select>
+            </div>
+
+            <div id="campo-outra-cidade" class="form-group" style="display: none; margin-top: 15px;">
+                <label>CIDADE_E_CEP *</label>
+                <input type="text" id="cust-cidade" class="cyber-input" style="margin-bottom: 0;" placeholder="Ex: São Paulo - CEP 01000-000">
+            </div>
+
+            <div class="form-group" style="margin-top: 15px;">
+                <label>ENDEREÇO_E_NUMERO *</label>
+                <input type="text" id="cust-rua" class="cyber-input" style="margin-bottom: 0;" placeholder="Rua, número e apto">
+            </div>
+        </div>
+
+        <div class="coupon-area">
+            <div class="coupon-flex">
+                <input type="text" id="couponInput" class="cyber-input" style="margin-bottom: 0;" placeholder="CÓDIGO VIP?">
+                <button class="neon-btn" style="width: auto;" onclick="aplicarCupom()">APLICAR</button>
+            </div>
+            <div id="couponMsg"></div>
+        </div>
+
+        <div id="priceDetails">
+            <div id="subtotalDisplay" style="font-size: 12px; color: rgba(255,255,255,0.6);">Produtos: R$ 0,00</div>
+            <div id="freteDisplay" style="font-size: 12px; color: var(--neon-cyan);">Frete: R$ 0,00</div>
+            <div id="discountDisplay" style="font-size: 12px; color: var(--neon-magenta); display:none;">Desconto VIP: -R$ 0,00</div>
+            <div id="totalDisplay" style="font-size: 18px; font-weight: bold; color: var(--neon-cyan); margin-top: 10px; border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 10px;">Total: R$ 0,00</div>
+        </div>
+
+        <button class="neon-btn" onclick="checkoutWhatsApp()" style="margin-bottom: 40px; height: 55px; font-size: 1rem;">// FINALIZAR PELO WHATSAPP</button>
+    </div>
+
+    <script>
+        const TABELA_FRETES = [
+            { bairro: "Centro", valor: 10.00 },
+            { bairro: "Itaum", valor: 15.00 },
+            { bairro: "Costa e Silva", valor: 12.00 },
+            { bairro: "Aventureiro", valor: 15.00 },
+            { bairro: "Pirabeiraba", valor: 15.00 },
+            { bairro: "Vila Nova", valor: 8.00 },
+            { bairro: "Boa Vista", valor: 15.00 }
+        ];
+
+        const PRECOS_FIXOS = { decant10ml: 50, decant30ml: 100 };
+        let cupomAtivo = false;
+        let carrinho = [];
+
+        let PERFUMES = [
+            {id: 1, name: "ALEEF", brand: "Lattafa", img: "https://i.postimg.cc/zfPLyk29/IMG-1.jpg", priceLacrado: 480},
+            {id: 2, name: "ECLAIRE", brand: "Lattafa", img: "https://i.postimg.cc/BQcXT3wN/IMG-2.jpg", priceLacrado: 500},
+            {id: 3, name: "VICTORIA", brand: "Lattafa", img: "https://i.postimg.cc/fy7Tf7C6/IMG-3.jpg", priceLacrado: 290},
+            {id: 4, name: "YARA ROSE", brand: "Lattafa", img: "https://i.postimg.cc/HkksbyyB/IMG-4.jpg", priceLacrado: 270},
+            {id: 5, name: "FAKHAR Gold", brand: "Lattafa", img: "https://i.postimg.cc/hvMRG2pc/IMG_5.jpg", priceLacrado: 285},
+            {id: 6, name: "ASAD", brand: "LATTAFA", img: "https://i.postimg.cc/FK2rtCBz/IMG-6.jpg", priceLacrado: 260},
+            {id: 7, name: "Fakhar Black", brand: "Lattafa", img: "https://i.postimg.cc/ncVdxF7D/IMG-7.jpg", priceLacrado: 295},
+            {id: 8, name: "FAKHAR ROSE", brand: "Lattafa", img: "https://i.postimg.cc/BvfHqpyY/IMG-8.jpg", priceLacrado: 280},
+            {id: 9, name: "LIQUID BRUM", brand: "Lattafa", img: "https://i.postimg.cc/Xqjttw4V/IMG-9.jpg", priceLacrado: 320},
+            {id: 10, name: "ODISSEY LIMONI", brand: "ARMAF", img: "https://i.postimg.cc/xTFXd5kj/IMG_10.jpg", priceLacrado: 275},
+            {id: 11, name: "THE KINGDOM MASCULINO", brand: "Lattafa", img: "https://i.postimg.cc/xTwV1NPm/IMG_11.jpg", priceLacrado: 290},
+            {id: 12, name: "Qaaed Al Fursan", brand: "Lattafa", img: "https://i.postimg.cc/c4pGLtcz/IMG_12.jpg", priceLacrado: 285},
+            {id: 13, name: "AFNAN REBEL PM9", brand: "AFNAN", img: "https://i.postimg.cc/dtbcVZ9H/IMG_13.jpg", priceLacrado: 310},
+            {id: 14, name: "WATANI AL WATANIAH",brand:"WATANIAH",img:"https://i.postimg.cc/BQrfnPCw/IMG_14.jpg", priceLacrado: 330},  
+            {id: 15, name: "YARA CANDY", brand: "LATTAFA", img: "https://i.postimg.cc/4NDRxH12/IMG_15.jpg", priceLacrado: 315},
+            {id: 16, name: "ODISSEY HOMME", brand: "Armaf", img: "https://i.postimg.cc/SKVPCncv/IMG_16.jpg", priceLacrado: 250},
+            {id: 17, name: "CLUB DE NUIT INTENSE", brand: "Armaf", img: "https://i.postimg.cc/jjv1PDyG/IMG_17.jpg", priceLacrado: 240},
+            {id: 18, name: "AFNAN 9 PM", brand: "AFNAN", img: "https://i.postimg.cc/Dz5NLS19/IMG_18.jpg", priceLacrado: 350},
+            {id: 19, name: "ODISSEY SPECTRA", brand: "Armaf", img: "https://i.postimg.cc/tTycVh1Z/IMG_19.jpg", priceLacrado: 265},
+            {id: 20, name: "ISHQ AL SHUYUKN SILVER EDP", brand: "lataffa", img: "https://i.postimg.cc/43w0VYpq/IMG_20.jpg", priceLacrado: 290},
+            {id: 21, name: "ATHEERI", brand: "LATTAFA", img: "https://i.postimg.cc/fRMndn6D/IMG_21.jpg", priceLacrado: 280},
+            {id: 22, name: "ODISSEY CANDEE", brand: "ARMAF", img: "https://i.postimg.cc/QCQvy0RJ/IMG-22.jpg", priceLacrado: 275},
+            {id: 23, name: "ODISSEY DUBAI CHOCOLATE", brand: "ARMAF", img: "https://i.postimg.cc/KcPVFpHH/IMG_23.jpg", priceLacrado: 295},
+            {id: 24, name: "ANFAR PISTACHIO KUNAFA ", brand: "ANFAR", img: "https://i.postimg.cc/RCWFDfp0/IMG-24.jpg", priceLacrado: 330},
+            {id: 25, name: "KHAMJAR", brand: "LATTAFA", img: "https://i.postimg.cc/8k7Rm7ht/IMG-25.jpg", priceLacrado: 340},
+            {id: 26, name: "KHAMRAH DUKHAN", brand: "LATTAFA", img: "https://i.postimg.cc/CLdjJzk4/IMG-26.jpg", priceLacrado: 360},
+            {id: 27, name: "SABÁ AL WARD", brand: "LATAFFA", img: "https://i.postimg.cc/cCxcdhKS/IMG-27.jpg", priceLacrado: 285},
+            {id: 28, name: "ASAD BOURBON", brand: "LATTAFA", img: "https://i.postimg.cc/mDJbsXpT/IMG-28.jpg", priceLacrado: 300},
+            {id: 29, name: "HER CONFISION", brand: "LATTAFA", img: "https://i.postimg.cc/DyDzhzDP/IMG-29.jpg", priceLacrado: 260},
+            {id: 30, name: "MUSAMAM WHITE INTENSE", brand: "LATTAFFA", img: "https://i.postimg.cc/0y9RSRLM/IMG_30.webp", priceLacrado: 310},
+            {id: 31, name: "HAYA", brand: "LATTAFFA", img: "https://i.postimg.cc/15cZC3S9/IMG-31.jpg", priceLacrado: 310},
+            {id: 32, name: "ATHENA", brand: "LATTAFFA", img: "https://i.postimg.cc/xCCrqvNd/IMG-32.jpg", priceLacrado: 310},
+            {id: 33, name: "ROUGE ROYAL", brand: "MARINA DE BOURBON", img: "https://i.postimg.cc/Z5JtNt1C/IMG_33.jpg", priceLacrado: 310},
+            {id: 34, name: "AMNIA", brand: "WATANIAH", img: "https://i.postimg.cc/t49Q6QL7/IMG_34.webp", priceLacrado: 310},
+            {id: 35, name: "FERRARI BLACK", brand: "FERRARI", img: "https://i.postimg.cc/QtL4ZckL/IMG-35.jpg", priceLacrado: 310},
+            {id: 36, name: "AL NOBLE WEEZER", brand: "LATTAFFA", img: "https://i.postimg.cc/x1xhhk48/IMG-36.jpg", priceLacrado: 310},
+            {id: 37, name: "CLASSIC STONE", brand: "LATTAFA", img: "https://i.postimg.cc/K8DvM5jr/IMG-37.jpg", priceLacrado: 310},
+            {id: 38, name: "AMEERAT AL ARABE ASDAAF", brand: "LATTAFFA", img: "https://i.postimg.cc/XN9zk1Kx/IMG_38.jpg", priceLacrado: 310},
+            {id: 39, name: "THE KINDOM FEMININO", brand: "LATTAFA", img: "https://i.postimg.cc/mZ75yp38/IMG_39.jpg", priceLacrado: 310},
+            {id: 40, name: "BRIOCHE VANILLI", brand: "LATTAFA", img:"https://i.postimg.cc/MTDy3B9s/IMG-40.jpg", priceLacrado: 310},
+            {id: 41, name: "Durrat Al Aroos 85ml  Intenso Parfum ", brand: "Al Wataniah", img:"https://i.postimg.cc/sgmsXDHY/IMG-41.jpg", priceLacrado: 310},
+            {id: 42, name: "Tharwah Gold EDP 100ML EDP", brand: "LATTAFA", img:"https://i.postimg.cc/VvJcZqYk/IMG-42.jpg", priceLacrado: 310},
+            {id: 43, name: "PASTA ROYAL AMBER", brand: "ISABELLE", img:"https://i.postimg.cc/W3v4Ff6B/IMG_43.jpg", priceLacrado: 150, somenteLacrado: true},
+            {id: 44, name: "PASTA YARA", brand: "ISABELLE", img:"https://i.postimg.cc/wvpBybQ8/IMG_44.jpg", priceLacrado: 150, somenteLacrado: true},
+            {id: 45, name: "PASTA ASAD", brand: "ISABELLE", img:"https://i.postimg.cc/xC2dJF3r/IMG_45.jpg", priceLacrado: 150, somenteLacrado: true},
+            {id: 46, name:"PASTA ANGEL",brand:"ISABELLE",img:"https://i.postimg.cc/qMW251Mb/IMG-46.jpg", priceLacrado: 150, somenteLacrado: true}
+        ]; 
+  
+        const precosSalvos = localStorage.getItem('Zion_Perfumes_Data');
+        if (precosSalvos) {
+            PERFUMES = JSON.parse(precosSalvos);
+        }
+
+        function carregarBairros() {
+            const select = document.getElementById('cust-bairro');
+            TABELA_FRETES.forEach(f => {
+                let opt = document.createElement('option');
+                opt.value = f.bairro;
+                opt.text = `${f.bairro} (R$ ${f.valor.toFixed(2)})`;
+                select.add(opt);
+            });
+            let optOutra = document.createElement('option');
+            optOutra.value = "OUTRA_CIDADE";
+            optOutra.text = "SOU DE OUTRA CIDADE (ENVIO)";
+            optOutra.style.color = "var(--neon-magenta)";
+            select.add(optOutra);
+        }
+
+        function verificarLocalidade() {
+            const bairro = document.getElementById('cust-bairro').value;
+            const campoCidade = document.getElementById('campo-outra-cidade');
+            campoCidade.style.display = (bairro === "OUTRA_CIDADE") ? "block" : "none";
+            atualizarCarrinho();
+        }
+
+        function renderizarProdutos() {
+            const container = document.getElementById('gridContainer');
+            container.innerHTML = PERFUMES.map(p => `
+                <div class="glass-card">
+                    <img src="${p.img}" class="card-image">
+                    <div style="font-size:10px; color:rgba(255,255,255,0.5); font-family:var(--font-tech)">// ${p.brand} - ID: ${p.id}</div>
+                    <h3 style="margin: 5px 0; font-family:var(--font-tech); font-size:1.1rem">${p.name}</h3>
+                    
+                    <div class="price-table">
+                        ${p.somenteLacrado ? '' : `
+                            <div class="price-row"><span>Decant 10ml</span><span class="price-value">R$ ${PRECOS_FIXOS.decant10ml}</span></div>
+                            <div class="price-row"><span>Decant 30ml</span><span class="price-value">R$ ${PRECOS_FIXOS.decant30ml}</span></div>
+                        `}
+                        <div class="price-row"><span>Lacrado</span><span class="price-value">R$ ${p.priceLacrado}</span></div>
+                    </div>
+                    
+                    <div style="flex-grow: 1;"></div>
+                    
+                    <select class="cyber-input" id="select-${p.id}">
+                        ${p.somenteLacrado ? '' : `
+                            <option value="10ml">Decant 10ml - R$ ${PRECOS_FIXOS.decant10ml}</option>
+                            <option value="30ml">Decant 30ml - R$ ${PRECOS_FIXOS.decant30ml}</option>
+                        `}
+                        <option value="Lacrado">Lacrado - R$ ${p.priceLacrado}</option>
+                    </select>
+                    <button class="neon-btn" onclick="adicionarAoCarrinho(${p.id})">ADICIONAR</button>
+                </div>
+            `).join('');
+        }
+
+        function adicionarAoCarrinho(id) {
+            const perfume = PERFUMES.find(p => p.id === id);
+            const tamanho = document.getElementById(`select-${id}`).value;
+            let valor = (tamanho === "10ml") ? PRECOS_FIXOS.decant10ml : (tamanho === "30ml" ? PRECOS_FIXOS.decant30ml : perfume.priceLacrado);
+            carrinho.push({ nome: perfume.name, tamanho: tamanho, preco: valor });
+            atualizarCarrinho();
+        }
+
+        function atualizarCarrinho() {
+            document.getElementById('cartCount').innerText = carrinho.length;
+            const itensDiv = document.getElementById('cartItems');
+            const freteDiv = document.getElementById('freteDisplay');
+            let subtotal = 0;
+            
+            itensDiv.innerHTML = carrinho.map((item, index) => {
+                subtotal += item.preco;
+                return `<div class="cart-item">
+                    <div><strong style="color:white;">${item.nome}</strong><br><small style="color:var(--neon-cyan)">[ ${item.tamanho} ]</small></div>
+                    <div>R$ ${item.preco.toFixed(2)} <i class="material-icons" onclick="removerItem(${index})" style="font-size:18px; color:var(--neon-magenta); cursor:pointer; margin-left:15px; vertical-align:middle; transition:0.3s;">delete</i></div>
+                </div>`;
+            }).join('');
+
+            const bairroSelecionado = document.getElementById('cust-bairro').value;
+            let valorFrete = 0;
+
+            if (bairroSelecionado === "OUTRA_CIDADE") {
+                valorFrete = 0;
+                freteDiv.innerHTML = `Frete: <span class="frete-alerta">⚠️ A COMBINAR</span>`;
+                freteDiv.style.color = "var(--neon-magenta)";
+            } else if (bairroSelecionado !== "") {
+                const freteObj = TABELA_FRETES.find(f => f.bairro === bairroSelecionado);
+                valorFrete = freteObj ? freteObj.valor : 0;
+                freteDiv.innerText = `Frete: R$ ${valorFrete.toFixed(2)}`;
+                freteDiv.style.color = "var(--neon-cyan)";
+            } else {
+                freteDiv.innerText = `Frete: R$ 0,00`;
+                freteDiv.style.color = "var(--neon-cyan)";
+            }
+
+            let desconto = cupomAtivo ? subtotal * 0.10 : 0;
+            let total = subtotal + valorFrete - desconto;
+
+            document.getElementById('subtotalDisplay').innerText = `Produtos: R$ ${subtotal.toFixed(2)}`;
+            
+            if(cupomAtivo) {
+                document.getElementById('discountDisplay').style.display = 'block';
+                document.getElementById('discountDisplay').innerText = `Desconto VIP (10%): -R$ ${desconto.toFixed(2)}`;
+            } else { 
+                document.getElementById('discountDisplay').style.display = 'none'; 
+            }
+            
+            document.getElementById('totalDisplay').innerText = `Total: R$ ${total.toFixed(2)}`;
+        }
+
+        function aplicarCupom() {
+            const input = document.getElementById('couponInput');
+            const codigo = input.value.trim().toLowerCase();
+            const msg = document.getElementById('couponMsg');
+            if(codigo === "elite10") {
+                cupomAtivo = true;
+                msg.innerText = "// ACESSO VIP LIBERADO 🎉"; msg.style.color = "#00FF00";
+            } else {
+                cupomAtivo = false;
+                msg.innerText = "ERRO: CÓDIGO INVÁLIDO."; msg.style.color = "var(--neon-magenta)";
+            }
+            input.value = "";
+            atualizarCarrinho();
+        }
+
+        function removerItem(index) {
+            carrinho.splice(index, 1);
+            atualizarCarrinho();
+        }
+
+        function toggleCart() {
+            document.getElementById('cartSidebar').classList.toggle('active');
+        }
+
+        function checkoutWhatsApp() {
+            if(carrinho.length === 0) return alert("Carrinho vazio!");
+
+            const nome = document.getElementById('cust-nome').value.trim();
+            const rua = document.getElementById('cust-rua').value.trim();
+            const bairro = document.getElementById('cust-bairro').value;
+            const cidadeOutra = document.getElementById('cust-cidade').value.trim();
+
+            if(!nome || !rua || !bairro) return alert("Por favor, preencha os dados de entrega!");
+            if(bairro === "OUTRA_CIDADE" && !cidadeOutra) return alert("Informe sua Cidade e CEP!");
+
+            let valorFreteTexto = "";
+            let localizacaoTexto = "";
+            let valorFreteNum = 0;
+
+            if (bairro === "OUTRA_CIDADE") {
+                valorFreteTexto = "⚠️ A COMBINAR (ENVIO)";
+                localizacaoTexto = `🌍 Cidade/CEP: ${cidadeOutra}`;
+                valorFreteNum = 0;
+            } else {
+                const freteObj = TABELA_FRETES.find(f => f.bairro === bairro);
+                valorFreteNum = freteObj ? freteObj.valor : 0;
+                valorFreteTexto = `R$ ${valorFreteNum.toFixed(2)}`;
+                localizacaoTexto = `🏘️ Bairro: ${bairro}`;
+            }
+
+            let subtotal = carrinho.reduce((a, b) => a + b.preco, 0);
+            let desconto = cupomAtivo ? subtotal * 0.1 : 0;
+            let total = subtotal + valorFreteNum - desconto;
+            
+            let texto = "*NOVO PEDIDO - ZION ELIXIR*\n\n";
+            texto += "*ENTREGA:*\n";
+            texto += "\uD83D\uDC64 Cliente: " + nome + "\n";
+            texto += "\uD83D\uDCCD End: " + rua + "\n";
+            texto += localizacaoTexto + "\n\n";
+            
+            texto += "*PRODUTOS:*\n";
+            carrinho.forEach(item => {
+                texto += "\u2022 " + item.nome + " (" + item.tamanho + ") - R$ " + item.preco.toFixed(2) + "\n";
+            });
+            
+            texto += "\n\uD83D\uDE9A Frete: " + valorFreteTexto;
+            if(cupomAtivo) texto += "\n\uD83C\uDF81 Desconto VIP: -R$ " + desconto.toFixed(2);
+            texto += "\n*TOTAL A PAGAR: R$ " + total.toFixed(2) + "*";
+            
+            window.open("https://wa.me/5547988997312?text=" + encodeURIComponent(texto));
+        }
+
+        document.getElementById('cartBtn').onclick = toggleCart;
+        carregarBairros();
+        renderizarProdutos();
+    </script>
+</body>
+</html>
