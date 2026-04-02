@@ -253,6 +253,44 @@
         }
         
         .cart-btn-header:hover { background: var(--neon-cyan); color: var(--cyber-dark); }
+
+        /* ========================================================= */
+        /* 6. RESPONSIVIDADE (Mobile Fix)                            */
+        /* ========================================================= */
+        @media screen and (max-width: 768px) {
+            .cart-sidebar {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 15px !important;
+                right: -100%;
+            }
+            .cart-sidebar.active { right: 0; }
+
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr); /* 2 itens por linha no celular */
+                gap: 10px;
+                padding: 10px;
+            }
+
+            .glass-card { padding: 1rem; }
+            .logo { font-size: 18px; }
+
+            #cartItems {
+                max-height: 40vh; /* Aumenta a visibilidade dos itens no celular */
+                overflow-y: auto;
+            }
+
+            .neon-btn {
+                padding: 10px 15px;
+                font-size: 0.75rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .grid-container {
+                grid-template-columns: 1fr; /* 1 item por linha em telas muito pequenas */
+            }
+        }
     </style>
 </head>
 <body>
